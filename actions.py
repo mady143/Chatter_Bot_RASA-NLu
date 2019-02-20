@@ -2,30 +2,30 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import unicode_literals
 
-from rasa_core.actions.action import Action
-from rasa_core.events import SlotSet
+from rasa_core_sdk import Action
+from rasa_core_sdk.events import SlotSet
 
-'''
-Architecture:  how do we make hierarchical conversation? For example:
-    I want to order a product?
-	bot: Which product?
-	A router
-	bot: which router?
-	829.
-	bot: Sure. Consider it done. Here is your confirmation number
-'''
-
-class ActionOrderProduct(Action):
+class ActionWeather(Action):
 	def name(self):
-		return 'action_order_product'
-
+		return 'action_weather'
+		
 	def run(self, dispatcher, tracker, domain):
+		from apixu.client import ApixuClient
+		api_key = '...' #your apixu key
+		client = ApixuClient(api_key)
+		
+		loc = tracker.get_slot('location')
+		current = client.getCurrentWeather(q=loc)
+		
+		country = current['location']['country']
+		city = current['location']['name']
+		condition = current['current']['condition']['text']
+		temperature_c = current['current']['temp_c']
+		humidity = current['current']['humidity']
+		wind_mph = current['current']['wind_mph']
 
-		#prod = tracker.get_slot('product')
-		router = tracker.get_slot('router')
-		confirmationNumber = 123456 #later generate through some process
-
-		response = """Your product {} is ordered for you. It will be shipped to your address. Your confirmation number is {}""".format(router, confirmationNumber)
-
+		response = """It is currently {} in {} at the moment. The temperature is {} degrees, the humidity is {}% and the wind speed is {} mph.""".format(condition, city, temperature_c, humidity, wind_mph)
+						
 		dispatcher.utter_message(response)
-		return [SlotSet('router',router)]
+		return [SlotSet('location',loc)]
+

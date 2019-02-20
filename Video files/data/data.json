@@ -23,7 +23,7 @@
           }
         ]
       },
-      {
+	  {
         "text": "hey",
         "intent": "greet",
         "entities": []
@@ -233,18 +233,6 @@
             "start": 25,
             "end": 30,
             "value": "Italy",
-            "entity": "location"
-          }
-        ]
-      },
-      {
-        "text": "what is the whether in Delhi",
-        "intent": "inform",
-        "entities": [
-          {
-            "start": 22,
-            "end": 28,
-            "value": " Delhi",
             "entity": "location"
           }
         ]

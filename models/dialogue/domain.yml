@@ -1,41 +1,32 @@
-action_factory: null
-action_names:
-- utter_greet
-- utter_goodbye
-- utter_affirm
-- utter_ask_product_name
-- action_order_product
+%YAML 1.1
+---
 actions:
 - utter_greet
 - utter_goodbye
-- utter_affirm
-- utter_ask_product_name
-- actions.ActionOrderProduct
+- utter_ask_location
+- action_weather
 config:
   store_entities_as_slots: true
 entities:
-- product
-- router
+- location
+forms: []
 intents:
-- greet
-- goodbye
-- order_product
+- greet:
+    use_entities: true
+- goodbye:
+    use_entities: true
+- inform:
+    use_entities: true
 slots:
-  product:
-    initial_value: null
-    type: rasa_core.slots.TextSlot
-  router:
+  location:
+    auto_fill: true
     initial_value: null
     type: rasa_core.slots.TextSlot
 templates:
-  utter_affirm:
-  - text: Thats right
-  - text: You are correct
-  utter_ask_product_name:
-  - text: Which product?
+  utter_ask_location:
+  - text: In what location?
   utter_goodbye:
   - text: Talk to you later.
-  - text: Bye
+  - text: Bye bye :(
   utter_greet:
   - text: Hello! How can I help?
-topics: []
